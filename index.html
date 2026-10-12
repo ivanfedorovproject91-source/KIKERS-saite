@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#180d09">
+  <meta name="description" content="KIKERS 2.0 — сатуратор и шейпер для бочки. Четыре характера сатурации, контроль атаки и низа, укорочение хвоста и лимитер в одном окне. VST3 / AU для Windows и macOS.">
+  <title>KIKERS 2.0 — Питательный жир для твоей бочки</title>
+  <style>
+    :root{--bg:#100907;--panel:#1a0e0a;--panel2:#28140e;--line:#63351f;--orange:#ff9d24;--cream:#fff0d7;--muted:#b9a99a;--red:#ef392f}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg);color:var(--cream);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.55}
+    body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.22;background:radial-gradient(ellipse at 50% 0%,#713619 0,transparent 52%),linear-gradient(135deg,transparent 48%,#4a2514 49%,transparent 50%);z-index:-1}
+    a{color:inherit}
+    .wrap{width:min(1120px,calc(100% - 40px));margin:auto}
+    header{padding:22px 0;border-bottom:1px solid #3b2115;background:#120906d9}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .brand{font-weight:950;letter-spacing:.08em;font-size:1.2rem;text-decoration:none}
+    .brand span{color:var(--orange)}
+    .navlinks{display:flex;gap:25px;align-items:center;font-size:.88rem;color:var(--muted)}
+    .navlinks a{text-decoration:none}.navlinks a:hover{color:var(--cream)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 22px;border-radius:10px;text-decoration:none;font-weight:850;letter-spacing:.025em;color:#1c1008;background:linear-gradient(180deg,#ffc15a,#f28a13);border:1px solid #ffd080;box-shadow:0 5px 0 #6c350e,0 12px 28px #0005;transition:transform .18s,filter .18s}
+    .btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
+    .btn.secondary{color:var(--cream);background:#25140e;border:1px solid #68402a;box-shadow:none}
+    .hero{padding:72px 0 64px;text-align:center}
+    .eyebrow{display:inline-flex;align-items:center;gap:9px;border:1px solid #5b321c;border-radius:999px;padding:7px 13px;color:#ffc16c;text-transform:uppercase;letter-spacing:.16em;font-size:.72rem;font-weight:800;background:#1c0f0b}
+    .dot{width:7px;height:7px;border-radius:50%;background:var(--orange);box-shadow:0 0 12px #ff9d24}
+    h1{font-size:clamp(2.7rem,7vw,5.8rem);line-height:.98;letter-spacing:-.065em;margin:24px 0 18px;font-weight:1000}
+    h1 .shine{color:var(--orange);text-shadow:0 3px 0 #6e3411,0 0 34px #ff8c2020}
+    .tagline{font-size:clamp(1.15rem,2.4vw,1.65rem);font-weight:800;margin:0 auto 14px}
+    .tagline em{font-style:normal;color:var(--orange)}
+    .intro{max-width:680px;margin:0 auto;color:var(--muted);font-size:1.02rem}
+    .actions{display:flex;justify-content:center;gap:15px;flex-wrap:wrap;margin:28px 0 0}
+    .version{margin-top:18px;color:#8f7d70;font-size:.78rem;letter-spacing:.04em}
+    .plugin-frame{position:relative;margin:48px auto 0;padding:10px;border-radius:20px;border:1px solid #754324;background:linear-gradient(145deg,#3b2013,#160b08 55%,#4c2918);box-shadow:0 25px 70px #0009,0 0 0 5px #24130d,0 0 0 6px #60351e;max-width:1050px}
+    .plugin-frame:before{content:"";position:absolute;inset:5px;border-radius:14px;border:1px solid #ffae3a30;pointer-events:none}
+    .plugin-frame img{display:block;width:100%;height:auto;border-radius:11px}
+    .image-caption{font-size:.75rem;color:#8d7969;margin:15px 0 0}
+    section{padding:64px 0}
+    .section-head{text-align:center;max-width:680px;margin:0 auto 32px}
+    .kicker{color:var(--orange);font-size:.75rem;font-weight:900;text-transform:uppercase;letter-spacing:.18em}
+    h2{font-size:clamp(1.8rem,4vw,3rem);line-height:1.08;letter-spacing:-.04em;margin:10px 0 12px}
+    .section-head p{color:var(--muted);margin:0}
+    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .feature{padding:23px;border-radius:15px;background:linear-gradient(145deg,#26140d,#170c09);border:1px solid #55301c;min-height:170px}
+    .feature .num{font-size:.72rem;color:var(--orange);font-weight:900;letter-spacing:.12em}
+    .feature h3{margin:11px 0 7px;font-size:1.05rem}
+    .feature p{margin:0;color:var(--muted);font-size:.9rem}
+    .modes{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:24px}
+    .mode{padding:17px 14px;border:1px solid #4e2c1a;border-radius:12px;background:#1c100b}
+    .mode strong{display:block;color:var(--orange);letter-spacing:.08em;margin-bottom:5px}
+    .mode span{font-size:.83rem;color:var(--muted)}
+    .specs{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:800px;margin:auto}
+    .spec{display:flex;justify-content:space-between;gap:20px;padding:14px 17px;border-bottom:1px solid #3b2418;color:var(--muted);font-size:.9rem}
+    .spec strong{color:var(--cream);text-align:right}
+    .download-panel{border:1px solid #704020;border-radius:20px;padding:clamp(25px,5vw,48px);text-align:center;background:radial-gradient(ellipse at 50% 0%,#4a2512,#21110b 60%,#170b08);box-shadow:0 20px 60px #0005}
+    .download-panel h2{margin-top:12px}
+    .download-panel p{color:var(--muted);max-width:620px;margin:0 auto 25px}
+    .platforms{font-size:.78rem;color:#9f8a78;margin-top:18px}
+    .faq{max-width:800px;margin:auto}
+    details{padding:18px 0;border-bottom:1px solid #3b2418}
+    summary{font-weight:800;cursor:pointer}
+    details p{color:var(--muted);margin:12px 0 0;font-size:.92rem}
+    footer{border-top:1px solid #3b2115;padding:26px 0;color:#8f7d70;font-size:.8rem}
+    .foot{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+    .foot strong{color:var(--cream)}
+    @media(max-width:760px){.navlinks a:not(.btn){display:none}.hero{padding:52px 0 45px}.features{grid-template-columns:1fr 1fr}.modes{grid-template-columns:1fr 1fr}.specs{grid-template-columns:1fr}.plugin-frame{padding:5px;margin-top:35px}}
+    @media(max-width:480px){.wrap{width:min(100% - 26px,1120px)}.features{grid-template-columns:1fr}.feature{min-height:auto}.actions .btn{width:100%}.navlinks .btn{padding:10px 12px;font-size:.78rem}.brand{font-size:1rem}.hero{padding-top:42px}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="#top">IV <span> / </span> KIKERS 2.0</a>
+      <nav class="navlinks" aria-label="Основная навигация">
+        <a href="#features">Возможности</a><a href="#specs">Совместимость</a><a href="#faq">FAQ</a>
+        <a class="btn" href="https://cloud.mail.ru/public/jMqc/5ATbjoUMR" target="_blank" rel="noopener noreferrer">Скачать ↗</a>
+      </nav>
+    </div>
+  </header>
+  <main id="top">
+    <section class="hero wrap">
+      <div class="eyebrow"><span class="dot"></span> Kick Saturator · Version 2.0.0</div>
+      <h1>KIKERS <span class="shine">2.0</span></h1>
+      <p class="tagline">Питательный жир для твоей <em>бочки!</em></p>
+      <p class="intro">Сделай кик плотнее, мощнее и точнее. Сатурация, атака, низ и контроль хвоста — всё необходимое для обработки бочки в одном стильном окне.</p>
+      <div class="actions">
+        <a class="btn" href="https://cloud.mail.ru/public/jMqc/5ATbjoUMR" target="_blank" rel="noopener noreferrer">↓ &nbsp; Скачать KIKERS 2.0</a>
+        <a class="btn secondary" href="#features">Изучить возможности&nbsp; ↓</a>
+      </div>
+      <div class="version">BY IVAN VEGAS AUDIO &nbsp;·&nbsp; VST3 / AU &nbsp;·&nbsp; 64-BIT</div>
+      <figure class="plugin-frame">
+        <img src="assets/kikers-plugin.png" alt="Интерфейс аудиоплагина KIKERS 2.0 с сатурацией, Punch, Body, Length, Tight, EQ и выходным лимитером">
+      </figure>
+      <p class="image-caption">KIKERS 2.0 — весь характер твоей бочки под рукой.</p>
+    </section>
+
+    <section id="features">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">Built for the kick</div>
+          <h2>Больше удара. Больше веса.</h2>
+          <p>Инструменты для формы и характера кика — без лишних окон и сложной маршрутизации.</p>
+        </div>
+        <div class="features">
+          <article class="feature"><div class="num">01 / SATURATION</div><h3>Характер и плотность</h3><p>ADAA-сатурация помогает добавить гармоники и уплотнить звук. Четыре режима — от мягкого до агрессивного.</p></article>
+          <article class="feature"><div class="num">02 / PUNCH</div><h3>Атака на переднем плане</h3><p>Подчеркни начальный щелчок удара, не поднимая весь сигнал целиком.</p></article>
+          <article class="feature"><div class="num">03 / BODY</div><h3>Вес в нижнем диапазоне</h3><p>Добавь телу бочки глубины и массы, когда миксу не хватает фундаментального низа.</p></article>
+          <article class="feature"><div class="num">04 / LENGTH</div><h3>Контроль хвоста</h3><p>Укорачивай кик, чтобы освободить место для баса и сделать ритм собраннее.</p></article>
+          <article class="feature"><div class="num">05 / TIGHT</div><h3>От мягкого до резкого</h3><p>Настрой характер затухания после заданной длины — плавно или жёстко.</p></article>
+          <article class="feature"><div class="num">06 / FINISH</div><h3>Финальная доводка</h3><p>Два EQ-шелфа, Dry/Wet MIX, OUTPUT и мягкий лимитер — всё в одном рабочем пространстве.</p></article>
+        </div>
+        <div class="modes">
+          <div class="mode"><strong>TAPE</strong><span>Мягкое округление пиков и естественная плотность.</span></div>
+          <div class="mode"><strong>TUBE</strong><span>Тёплый, объёмный характер с выраженными гармониками.</span></div>
+          <div class="mode"><strong>CLIP</strong><span>Жёсткий край, напор и яркий клубный удар.</span></div>
+          <div class="mode"><strong>DIRT</strong><span>Грубый драйв для грязного, агрессивного оттенка.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="specs">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">Technical details</div>
+          <h2>Встал в проект — работай.</h2>
+          <p>Поддерживаемые форматы и основные технические параметры.</p>
+        </div>
+        <div class="specs">
+          <div class="spec"><span>Версия</span><strong>2.0.0</strong></div>
+          <div class="spec"><span>Разработчик</span><strong>Ivan Vegas Audio</strong></div>
+          <div class="spec"><span>Windows</span><strong>10 / 11 · 64-bit · VST3</strong></div>
+          <div class="spec"><span>macOS</span><strong>10.13+ · Intel / Apple Silicon</strong></div>
+          <div class="spec"><span>Форматы</span><strong>VST3 · Audio Unit (macOS)</strong></div>
+          <div class="spec"><span>Каналы</span><strong>Моно и стерео</strong></div>
+          <div class="spec"><span>Задержка</span><strong>2 мс · сообщается в DAW</strong></div>
+          <div class="spec"><span>Пресеты</span><strong>6 стартовых настроек</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="download-panel">
+          <div class="kicker">Make your kick hit</div>
+          <h2>Пора дать бочке вес.</h2>
+          <p>KIKERS 2.0 от Ivan Vegas Audio. Выбери характер, сформируй атаку и освободи место для баса.</p>
+          <a class="btn" href="https://cloud.mail.ru/public/jMqc/5ATbjoUMR" target="_blank" rel="noopener noreferrer">↓ &nbsp; Скачать плагин</a>
+          <div class="platforms">Windows 10/11 · macOS 10.13+ · 64-bit</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">Quick answers</div>
+          <h2>Перед установкой</h2>
+        </div>
+        <div class="faq">
+          <details><summary>С какими DAW работает KIKERS 2.0?</summary><p>На Windows — с программами, поддерживающими VST3, включая FL Studio, Ableton Live 11 и новее, Cubase и Reaper. На macOS доступны VST3 и Audio Unit; среди совместимых программ — Logic Pro, GarageBand, Ableton Live и Reaper.</p></details>
+          <details><summary>Как установить на Windows?</summary><p>Запусти KIKERS2-Setup.exe, затем перезапусти DAW и обнови список плагинов. В FL Studio: Options → Manage plugins → Find installed plugins.</p></details>
+          <details><summary>Как установить на macOS?</summary><p>Открой KIKERS2-macOS.pkg и пройди установку. После этого перезапусти DAW и обнови список плагинов. Установщик ставит VST3 и Audio Unit.</p></details>
+          <details><summary>Можно поставить плагин на общую шину ударных?</summary><p>Лучше ставить его на отдельную дорожку с одной бочкой: функция LENGTH срабатывает на каждый удар и может заглушать другие звуки между ударами.</p></details>
+          <details><summary>Какие форматы не поддерживаются?</summary><p>Не поддерживаются AAX для Pro Tools, VST2, 32-битные системы и Linux. Ableton Live 10 и старше не поддерживает VST3 на Windows.</p></details>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap foot"><div><strong>KIKERS 2.0</strong> &nbsp;·&nbsp; Ivan Vegas Audio</div><div>Питательный жир для твоей бочки.</div></div>
+  </footer>
+</body>
+</html>
